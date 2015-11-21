@@ -1,0 +1,10 @@
+{
+  "name": "Rx-Server",
+  "description": "Rx test server",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.13.3",
+    "word-list": "^1.0.1"
+  }
+}
