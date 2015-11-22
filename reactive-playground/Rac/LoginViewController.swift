@@ -102,18 +102,18 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
             )
             .flatMap(FlattenStrategy.Latest) { (username, password) -> SignalProducer<Bool, NSError> in
                 return self.api.login(username, password: password)
-                    .on(failed: { (error) -> () in
-                        print(error)
-                    })
                     .retry(1)
+                    .observeOn(UIScheduler())
+                    .on(failed: { error -> () in
+                        self.view.animateColor(UIColor.redColor())
+                    })
                     .flatMapError { error in
-                        print("Network error occurred: \(error)")
                         return SignalProducer.empty
-                }
+                    }
             }
             .observeOn(UIScheduler())
-            .on(next: { next -> () in
-                if !next {
+            .on(next: { loggedIn -> () in
+                if !loggedIn {
                     print("invalid login credentials")
                     self.usernameField.shake()
                     self.passwordField.shake()

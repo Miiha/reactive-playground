@@ -36,14 +36,14 @@
 		862F907A1BFE05B400116F9A /* ApiClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		866294791BF15134008794A0 /* UIKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
 		866D23301BF5EA680048B827 /* UIViewAnimations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewAnimations.swift; sourceTree = "<group>"; };
-		86A4D0541BECAE1C00110425 /* Rac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		86A4D0541BECAE1C00110425 /* ReactivePlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReactivePlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86A4D0571BECAE1C00110425 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86A4D0591BECAE1C00110425 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		86A4D05C1BECAE1C00110425 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		86A4D05E1BECAE1C00110425 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		86A4D0611BECAE1C00110425 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86A4D0631BECAE1C00110425 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		86A4D0681BECAE1C00110425 /* RacTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RacTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		86A4D0681BECAE1C00110425 /* ReactivePlayground.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReactivePlayground.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		86A4D06C1BECAE1C00110425 /* RacTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacTests.swift; sourceTree = "<group>"; };
 		86A4D06E1BECAE1C00110425 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86A4D0771BECAF8B00110425 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
@@ -84,8 +84,8 @@
 		86A4D0551BECAE1C00110425 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				86A4D0541BECAE1C00110425 /* Rac.app */,
-				86A4D0681BECAE1C00110425 /* RacTests.xctest */,
+				86A4D0541BECAE1C00110425 /* ReactivePlayground.app */,
+				86A4D0681BECAE1C00110425 /* ReactivePlayground.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,9 +119,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		86A4D0531BECAE1C00110425 /* Rac */ = {
+		86A4D0531BECAE1C00110425 /* ReactivePlayground */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 86A4D0711BECAE1C00110425 /* Build configuration list for PBXNativeTarget "Rac" */;
+			buildConfigurationList = 86A4D0711BECAE1C00110425 /* Build configuration list for PBXNativeTarget "ReactivePlayground" */;
 			buildPhases = (
 				86A4D0501BECAE1C00110425 /* Sources */,
 				86A4D0511BECAE1C00110425 /* Frameworks */,
@@ -132,14 +132,14 @@
 			);
 			dependencies = (
 			);
-			name = Rac;
+			name = ReactivePlayground;
 			productName = Rac;
-			productReference = 86A4D0541BECAE1C00110425 /* Rac.app */;
+			productReference = 86A4D0541BECAE1C00110425 /* ReactivePlayground.app */;
 			productType = "com.apple.product-type.application";
 		};
-		86A4D0671BECAE1C00110425 /* RacTests */ = {
+		86A4D0671BECAE1C00110425 /* ReactivePlaygroundTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 86A4D0741BECAE1C00110425 /* Build configuration list for PBXNativeTarget "RacTests" */;
+			buildConfigurationList = 86A4D0741BECAE1C00110425 /* Build configuration list for PBXNativeTarget "ReactivePlaygroundTests" */;
 			buildPhases = (
 				86A4D0641BECAE1C00110425 /* Sources */,
 				86A4D0651BECAE1C00110425 /* Frameworks */,
@@ -150,9 +150,9 @@
 			dependencies = (
 				86A4D06A1BECAE1C00110425 /* PBXTargetDependency */,
 			);
-			name = RacTests;
+			name = ReactivePlaygroundTests;
 			productName = RacTests;
-			productReference = 86A4D0681BECAE1C00110425 /* RacTests.xctest */;
+			productReference = 86A4D0681BECAE1C00110425 /* ReactivePlayground.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -176,7 +176,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 86A4D04F1BECAE1C00110425 /* Build configuration list for PBXProject "Rac" */;
+			buildConfigurationList = 86A4D04F1BECAE1C00110425 /* Build configuration list for PBXProject "ReactivePlayground" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -189,8 +189,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				86A4D0531BECAE1C00110425 /* Rac */,
-				86A4D0671BECAE1C00110425 /* RacTests */,
+				86A4D0531BECAE1C00110425 /* ReactivePlayground */,
+				86A4D0671BECAE1C00110425 /* ReactivePlaygroundTests */,
 			);
 		};
 /* End PBXProject section */
@@ -260,7 +260,7 @@
 /* Begin PBXTargetDependency section */
 		86A4D06A1BECAE1C00110425 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 86A4D0531BECAE1C00110425 /* Rac */;
+			target = 86A4D0531BECAE1C00110425 /* ReactivePlayground */;
 			targetProxy = 86A4D0691BECAE1C00110425 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -379,7 +379,7 @@
 				INFOPLIST_FILE = Rac/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kaostheorie.rac.Rac;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ReactivePlayground;
 			};
 			name = Debug;
 		};
@@ -394,7 +394,7 @@
 				INFOPLIST_FILE = Rac/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kaostheorie.rac.Rac;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ReactivePlayground;
 			};
 			name = Release;
 		};
@@ -405,8 +405,8 @@
 				INFOPLIST_FILE = RacTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kaostheorie.rac.RacTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rac.app/Rac";
+				PRODUCT_NAME = ReactivePlayground;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReactivePlayground.app/ReactivePlayground";
 			};
 			name = Debug;
 		};
@@ -417,15 +417,15 @@
 				INFOPLIST_FILE = RacTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kaostheorie.rac.RacTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rac.app/Rac";
+				PRODUCT_NAME = ReactivePlayground;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReactivePlayground.app/ReactivePlayground";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		86A4D04F1BECAE1C00110425 /* Build configuration list for PBXProject "Rac" */ = {
+		86A4D04F1BECAE1C00110425 /* Build configuration list for PBXProject "ReactivePlayground" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				86A4D06F1BECAE1C00110425 /* Debug */,
@@ -434,7 +434,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		86A4D0711BECAE1C00110425 /* Build configuration list for PBXNativeTarget "Rac" */ = {
+		86A4D0711BECAE1C00110425 /* Build configuration list for PBXNativeTarget "ReactivePlayground" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				86A4D0721BECAE1C00110425 /* Debug */,
@@ -443,7 +443,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		86A4D0741BECAE1C00110425 /* Build configuration list for PBXNativeTarget "RacTests" */ = {
+		86A4D0741BECAE1C00110425 /* Build configuration list for PBXNativeTarget "ReactivePlaygroundTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				86A4D0751BECAE1C00110425 /* Debug */,
