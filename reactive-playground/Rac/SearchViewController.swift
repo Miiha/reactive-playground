@@ -46,11 +46,12 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             .ignoreNil()
             .throttle(1.0, onScheduler: QueueScheduler.mainQueueScheduler)
             .flatMap(.Latest, transform: { query -> SignalProducer<Array<String>, NSError> in
-                return self.api.search(query)
-                    .flatMapError { error in
-                        print("Error Occured: \(error)")
-                        return SignalProducer.empty
-                }
+                return self.api.searchSignal(query)
+                    .observeOn(UIScheduler())
+                    .on(failed: { error -> () in
+                        self.tableView.animateColor(UIColor.redColor())
+                    })
+                    .flatMapError { error  in SignalProducer<Array<String>, NSError>(value: Array<String>()) }
             })
             .observeOn(UIScheduler())
             .startWithNext { result -> () in

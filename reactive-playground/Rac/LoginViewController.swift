@@ -101,7 +101,7 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
                 })
             )
             .flatMap(FlattenStrategy.Latest) { (username, password) -> SignalProducer<Bool, NSError> in
-                return self.api.login(username, password: password)
+                return self.api.loginSignal(username, password: password)
                     .retry(1)
                     .observeOn(UIScheduler())
                     .on(failed: { error -> () in

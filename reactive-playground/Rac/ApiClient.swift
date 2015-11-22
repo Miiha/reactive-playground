@@ -12,7 +12,7 @@ import ReactiveCocoa
 class API {
     let session =  NSURLSession.sharedSession()
     
-    func login(username: String, password: String) -> SignalProducer<Bool, NSError> {
+    func loginSignal(username: String, password: String) -> SignalProducer<Bool, NSError> {
         let URL = NSURL(string: "http://localhost:3000/?username=\(username)&password=\(password)")!        // much wow, much save
         let request = NSURLRequest(URL: URL)
         
@@ -27,7 +27,7 @@ class API {
     }
     
     
-    func search(query: String) -> SignalProducer<Array<String>, NSError> {
+    func searchSignal(query: String) -> SignalProducer<Array<String>, NSError> {
         let URL = NSURL(string: "http://localhost:3000/words/?q=\(query)&max=20")!
         let request = NSURLRequest(URL: URL)
         
