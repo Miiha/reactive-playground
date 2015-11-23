@@ -15,7 +15,7 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var passwordField: UITextField!
 
     @IBOutlet weak var loginButton: UIButton!
-    let api = API()
+    let apiClient = ApiClient()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,7 +101,7 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
                 })
             )
             .flatMap(FlattenStrategy.Latest) { (username, password) -> SignalProducer<Bool, NSError> in
-                return self.api.loginSignal(username, password: password)
+                return self.apiClient.loginSignal(username, password: password)
                     .retry(1)
                     .observeOn(UIScheduler())
                     .on(failed: { error -> () in

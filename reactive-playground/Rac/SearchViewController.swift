@@ -13,7 +13,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var tableView: UITableView!
     
     let searchResultController: UISearchController!
-    let api = API()
+    let apiClient = ApiClient()
     let cellIdentifier = "WordCell"
     
     var tableData = Array<String>()
@@ -46,8 +46,9 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             .ignoreNil()
             .throttle(1.0, onScheduler: QueueScheduler.mainQueueScheduler)
             .flatMap(.Latest, transform: { query -> SignalProducer<Array<String>, NSError> in
-                return self.api.searchSignal(query)
+                return self.apiClient.searchSignal(query)
                     .observeOn(UIScheduler())
+                    .retry(1)
                     .on(failed: { error -> () in
                         self.tableView.animateColor(UIColor.redColor())
                     })

@@ -9,7 +9,7 @@
 import Foundation
 import ReactiveCocoa
 
-class API {
+class ApiClient {
     let session =  NSURLSession.sharedSession()
     
     func loginSignal(username: String, password: String) -> SignalProducer<Bool, NSError> {
