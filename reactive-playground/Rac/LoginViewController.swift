@@ -80,14 +80,14 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
         
         validPasswordSignal
             .sampleOn(loginSignal.map {_ in ()})
-            .filter {!$0}
+            .filter { !$0 }
             .startWithNext { next -> () in
                 self.passwordField.shake()
             }
 
         validUsernameSignal
-            .sampleOn(loginSignal.map {_ in ()})
-            .filter {!$0}
+            .sampleOn(loginSignal.map { _ in ()})
+            .filter { !$0 }
             .startWithNext { next -> () in
                 self.usernameField.shake()
         }
@@ -119,7 +119,7 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
                     self.passwordField.shake()
                 }
             })
-            .filter {$0}
+            .filter { $0 }
             .startWithNext { loggedIn -> () in
                 self.view.animateColor(UIColor.greenColor())
                 print("logged in")
