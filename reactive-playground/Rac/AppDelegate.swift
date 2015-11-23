@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Rac
+//  Reactive Playground
 //
 //  Created by Michael Kao on 06/11/15.
 //  Copyright © 2015 Michael Kao. All rights reserved.
