@@ -21,7 +21,7 @@ Am wichtigsten ist das Konzept zu verstehen
 Ist seit anfang 2012 in Objective C
 
 #Signals
-Ein Signal kann alles sein 
+Ein Signal kann alles sein
 
 #Create Producer
 Unterscheidung zwischen Hot und Cold Signals
