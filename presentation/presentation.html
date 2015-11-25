@@ -200,19 +200,19 @@ A signal is a sequence of ongoing events ordered in time
 ```swift
 
 public enum Event<Value, Error: ErrorType> {
-/// A value provided by the signal.
-case Next(Value)
+	/// A value provided by the signal.
+	case Next(Value)
 
-/// The signal terminated because of an error. No further events will be
-/// received.
-case Failed(Error)
+	/// The signal terminated because of an error. No further events will be
+	/// received.
+	case Failed(Error)
 
-/// The signal successfully terminated. No further events will be received.
-case Completed
+	/// The signal successfully terminated. No further events will be received.
+	case Completed
 
-/// Event production on the signal has been interrupted. No further events
-/// will be received.
-case Interrupted
+	/// Event production on the signal has been interrupted. No further events
+	/// will be received.
+	case Interrupted
 }
 ```
 ---
@@ -317,12 +317,12 @@ validUsernameSignal
 -----------------t---t---->
 ```
 ---
-##.take(count) 
-// Returns a producer that will yield the first count values from the input producer.
 ##.collect() 
 // Returns a signal that will yield an array of values when signal completes.
 ##.skip(count)
 // Returns a producer that will skip the first count values, then forward everything afterward.
+##.take(count) 
+// Returns a producer that will yield the first count values from the input producer.
 ---
 #Combining
 ##.takeUntil(trigger)
@@ -372,7 +372,7 @@ loginSignal()
 ---
 #Reference
 ## Talks
-Justin Spahr Summers - [enemy of the state](https://github.com/jspahrsummers/enemy-of-the-state)   
+Justin Spahr Summers [enemy of the state](https://github.com/jspahrsummers/enemy-of-the-state)   
 Colin Eberhardt [Swift, ReactiveCocoa…Better Together](https://realm.io/news/swift-summit-colin-eberhardt-reactivecocoa/)  
 Ash Furrow [Functional Reactive Awesomeness With Swift](https://realm.io/news/altconf-ash-furrow-functional-reactive-swift/)  
 Erik Meijer [What does it mean to be Reactive?](https://www.youtube.com/watch?v=sTSQlYX5DU0)
