@@ -13,13 +13,13 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
 
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
-
     @IBOutlet weak var loginButton: UIButton!
+    
     let apiClient = ApiClient()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let usernameTextSignal = usernameField.rac_textSignal().toSignalProducer()
             .flatMapError { error in
                 return SignalProducer<AnyObject?, NoError>.empty
@@ -39,67 +39,42 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
 //        usernameTextSignal.startWithNext { text -> () in
 //            print("usernameTextSignal", text)
 //        }
-        
+//        
 //        passwordTextSignal.startWithNext { text -> () in
 //            print("passwordTextSignal", text)
 //        }
         
         let validUsernameSignal = usernameTextSignal
-            .map { text -> Bool in
-                return self.isValidUsername(text)
-            }
+            .map { self.isValidUsername($0) }
 
         let validPasswordSignal = passwordTextSignal
-            .map { text -> Bool in
-                return self.isValidPassword(text)
-            }
+            .map { self.isValidPassword($0) }
         
         usernameField.rac_alpha <~ validUsernameSignal
-            .map({ valid -> CGFloat in
-                return valid ? 1.0 : 0.5
-            })
+            .map { $0 ? 1.0 : 0.5 }
 
         passwordField.rac_alpha <~ validPasswordSignal
-            .map({ valid -> CGFloat in
-                return valid ? 1.0 : 0.5
-            })
-
-         let signUpActiveSignal = combineLatest(validUsernameSignal, validPasswordSignal)
+            .map { $0 ? 1.0 : 0.5 }
+        
+        let signUpActiveSignal = combineLatest(validUsernameSignal, validPasswordSignal)
             .map({ (usernameValid, passwordValid) -> Bool in
                 return usernameValid && passwordValid
             })
         
         // bind the result of signUpActiveSignal to the login button
         loginButton.rac_hidden <~ signUpActiveSignal.map {!$0}
-
-        let loginSignal = loginButton.rac_signalForControlEvents(.TouchUpInside).toSignalProducer()
+        
+        let loginButtonSignal = loginButton.rac_signalForControlEvents(.TouchUpInside).toSignalProducer()
             .flatMapError { error in
                 return SignalProducer<AnyObject?, NoError>.empty
             }
-            .ignoreNil()
-        
-        validPasswordSignal
-            .sampleOn(loginSignal.map {_ in ()})
-            .filter { !$0 }
-            .startWithNext { next -> () in
-                self.passwordField.shake()
-            }
 
-        validUsernameSignal
-            .sampleOn(loginSignal.map { _ in ()})
-            .filter { !$0 }
-            .startWithNext { next -> () in
-                self.usernameField.shake()
-        }
-        
+        // login
         combineLatest(usernameTextSignal, passwordTextSignal)
             .flatMapError { error in
                 return SignalProducer.empty
             }
-            .sampleOn(loginSignal.map({ event -> Void in
-                return ()
-                })
-            )
+            .sampleOn(loginButtonSignal.map { _ in () })
             .flatMap(FlattenStrategy.Latest) { (username, password) -> SignalProducer<Bool, NSError> in
                 return self.apiClient.loginSignal(username, password: password)
                     .retry(1)
@@ -110,11 +85,11 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
                     .flatMapError { error in
                         return SignalProducer.empty
                     }
-            }
+                }
             .observeOn(UIScheduler())
             .on(next: { loggedIn -> () in
                 if !loggedIn {
-                    print("invalid login credentials")
+                    print("api: invalid login credentials")
                     self.usernameField.shake()
                     self.passwordField.shake()
                 }
@@ -122,8 +97,23 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
             .filter { $0 }
             .startWithNext { loggedIn -> () in
                 self.view.animateColor(UIColor.greenColor())
-                print("logged in")
+                print("api: logged in")
             }
+        
+        // shake when text is invalid while tapping login
+        validUsernameSignal
+            .sampleOn(loginButtonSignal.map { _ in () })
+            .filter { !$0 }
+            .startWithNext { next -> () in
+                self.usernameField.shake()
+        }
+        
+        validPasswordSignal
+            .sampleOn(loginButtonSignal.map {_ in () })
+            .filter { !$0 }
+            .startWithNext { next -> () in
+                self.passwordField.shake()
+        }
     }
     
     func isValidUsername(username: String) -> Bool {

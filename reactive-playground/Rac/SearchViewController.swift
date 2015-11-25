@@ -11,12 +11,12 @@ import ReactiveCocoa
 
 class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
     @IBOutlet weak var tableView: UITableView!
-    
+
+    let cellIdentifier = "WordCell"
+
     let searchResultController: UISearchController!
     let apiClient = ApiClient()
-    let cellIdentifier = "WordCell"
-    
-    var tableData = Array<String>()
+    let dataSource = MutableProperty<Array<String>>([])
 
     required init?(coder aDecoder: NSCoder) {
         self.searchResultController = UISearchController(searchResultsController: nil)
@@ -47,8 +47,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             .throttle(1.0, onScheduler: QueueScheduler.mainQueueScheduler)
             .flatMap(.Latest, transform: { query -> SignalProducer<Array<String>, NSError> in
                 return self.apiClient.searchSignal(query)
-                    .observeOn(UIScheduler())
                     .retry(1)
+                    .observeOn(UIScheduler())
                     .on(failed: { error -> () in
                         self.tableView.animateColor(UIColor.redColor())
                     })
@@ -56,7 +56,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             })
             .observeOn(UIScheduler())
             .startWithNext { result -> () in
-                self.tableData = result
+                self.dataSource.value = result
                 self.tableView.reloadData()
             }
     }
@@ -67,7 +67,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchResultController.active {
-            return tableData.count
+            return dataSource.value.count
         } else {
             return 0
         }
@@ -75,7 +75,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
-        cell.textLabel?.text = tableData[indexPath.row]
+        cell.textLabel?.text = dataSource.value[indexPath.row]
         
         return cell
     }

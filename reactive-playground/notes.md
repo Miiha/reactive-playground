@@ -1,3 +1,32 @@
+# What is functional programming?
+Imperative Programmierung: Programm besteht aus Folgen von Anweisungen die meistens Variablen verändern
+Funktionale Programmierung: Programm besteht ausschliesslich aus Funktionen, welche als Datentypen behandet werden. 
+Funktionen als Parameter
+First class objects
+Verzicht auf state
+
+# Was ist reactive?
+Beschreiben des Dataflows, reagieren auf events 
+
+# Funktionen getter/setter
+Eric Mejer
+
+#ReactiveCocoa common interface
+Alle machen sehr aenliche Sachen
+Sie stehen nicht wirklich in konkurrenz 
+Auswaehlen was einem am besten passt
+Am wichtigsten ist das Konzept zu verstehen
+
+#Reactive Cocoa
+Ist seit anfang 2012 in Objective C
+
+#Signals
+Ein Signal kann alles sein 
+
+#Create Producer
+Unterscheidung zwischen Hot und Cold Signals
+
+
 .flatMap(FlattenStrategy.Latest) { (username, password) -> SignalProducer<(NSData, NSURLResponse), NSError> in
 
 func login(username: String, password: String) -> SignalProducer<(NSData, NSURLResponse), NSError> {

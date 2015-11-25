@@ -131,6 +131,15 @@ class: middle, inverse
 ##Functional programming is programming without assignment statements.
 .footnote[Functional Programming Basics [pragprog.com](https://pragprog.com/magazines/2013-01/functional-programming-basics)]
 ---
+```remark
+x = x + 1
+0 = 1
+```
+```remark
+x: = x + 1
+```
+.footnote[[wikipedia.de](https://de.wikipedia.org/wiki/Funktionale_Programmierung)]
+---
 #What is Reactive?
 ---
 ##Datatypes that represent a value "over time".
@@ -138,52 +147,40 @@ class: middle, inverse
 ---
 ##() -> T 
 Consumer in charge  
+.footnote[Eric Mejer [youtube.com](https://www.youtube.com/watch?v=sTSQlYX5DU0)]
 ---
 ##T -> () 
 Producer in charge
 ---
 #Every line of Code we write is executed in reaction to an event
+.footnote[Colin Eberhardt [realm.io](https://realm.io/news/swift-summit-colin-eberhardt-reactivecocoa/)]
 ---
-#But... these events come in many forms
+#But... 
 ---
-#Reactive Cocoa provides a common interface for all events
+#these events come in many forms
+Notifications, KVO, Delegates, Callbacks, Target/Selector,... 
 ---
-#...this allows us to define a language for manipulating, transforming and coordinating events
+#ReactiveCocoa provides a common interface for all events
 ---
-#Streams
+#ReactiveCocoa
+#RxSwift
+#Bolts
+#PromiseKit
+#ReactiveKit
+#...  
+  
+.footnote[Ash Furrow [ashfurrow.com](https://ashfurrow.com/blog/reactivecocoa-vs-rxswift/)]
+---
+#Signals
 #Transformations
-#Subscribe/Observe(Binding)
+#Subscribe/Observe(Bind)
 ---
-##Streams/Signals/Observables send stuff
-A stream is a sequence of ongoing events ordered in time  
- 
-Pew Pew Pew
----
-class: left, top
-
-#Signals emit events 
-
-```swift
-
-public enum Event<Value, Error: ErrorType> {
-	/// A value provided by the signal.
-	case Next(Value)
-
-	/// The signal terminated because of an error. No further events will be
-	/// received.
-	case Failed(Error)
-
-	/// The signal successfully terminated. No further events will be received.
-	case Completed
-
-	/// Event production on the signal has been interrupted. No further events
-	/// will be received.
-	case Interrupted
-}
-
+##Signals/Streams/Observables send stuff
+A signal is a sequence of ongoing events ordered in time  
+```remark 
+-----Pew-------Pew------Pew----------------
 ```
 ---
-
 ```remark
 ---tap-tap-------tap--->
 ```
@@ -200,9 +197,32 @@ public enum Event<Value, Error: ErrorType> {
 --a--b--a--a--a---d---X // it terminates with error
 ```
 ---
-##Marbels
-![Default-aligned image](stream.png)
-.footnote[[rxmarbles.com](http://rxmarbles.com/)]
+```swift
+
+public enum Event<Value, Error: ErrorType> {
+/// A value provided by the signal.
+case Next(Value)
+
+/// The signal terminated because of an error. No further events will be
+/// received.
+case Failed(Error)
+
+/// The signal successfully terminated. No further events will be received.
+case Completed
+
+/// Event production on the signal has been interrupted. No further events
+/// will be received.
+case Interrupted
+}
+```
+---
+#Create Producer
+```swift
+let signalProducer = SignalProducer<String, NoError> { observer, disposable in
+	observer.sendNext("Test")
+	observer.sendCompleted()
+}
+```
 ---
 # Observe/Subscribe
 
@@ -222,8 +242,9 @@ usernameTextSignal
 ---
 #Disposable
 ```swift
-let disposable = signalProducer.startWithNext { next in print(next) }
-
+let disposable = signalProducer.startWithNext { next in ... }
+```
+```swift
 // manually
 disposable.dispose()
 ```
@@ -242,9 +263,13 @@ signal //new
 
 .footnote[Basic Operators [github.com](https://github.com/ReactiveCocoa/ReactiveCocoa/blob/master/Documentation/BasicOperators.md)]
 ---
+##Marbles
+![Default-aligned image](stream.png)
+.footnote[[rxmarbles.com](http://rxmarbles.com/)]
+---
 #.map()
 ```swift
-userTextSignal
+usernameTextSignal
 	.map({ (text: String) -> Bool in 
 		return characters.count > 3
 	})
@@ -259,6 +284,10 @@ usernameTextSignal
 ---h--e-----l----l---o---->
 .map()
 ---f--f-----f----t---t---->
+```
+
+```swift
+let usernameValidSignal = usernameTextSignal.map { $0.characters.count > 3 } 
 ```
 ---
 #.filter()
