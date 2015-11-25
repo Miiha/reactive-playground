@@ -26,7 +26,6 @@ class ApiClient {
             })
     }
     
-    
     func searchSignal(query: String) -> SignalProducer<Array<String>, NSError> {
         let URL = NSURL(string: "http://localhost:3000/words/?q=\(query)&max=20")!
         let request = NSURLRequest(URL: URL)
