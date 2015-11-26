@@ -35,14 +35,6 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
             .map({ text -> String in
                 return text as! String
             })
-  
-//        usernameTextSignal.startWithNext { text -> () in
-//            print("usernameTextSignal", text)
-//        }
-//        
-//        passwordTextSignal.startWithNext { text -> () in
-//            print("passwordTextSignal", text)
-//        }
         
         let validUsernameSignal = usernameTextSignal
             .map { self.isValidUsername($0) }
@@ -62,7 +54,8 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
             })
         
         // bind the result of signUpActiveSignal to the login button
-        loginButton.rac_hidden <~ signUpActiveSignal.map {!$0}
+        loginButton.rac_hidden <~ signUpActiveSignal
+            .map {!$0}
         
         let loginButtonSignal = loginButton.rac_signalForControlEvents(.TouchUpInside).toSignalProducer()
             .flatMapError { error in

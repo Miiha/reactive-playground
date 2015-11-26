@@ -31,16 +31,20 @@ class ApiClient {
         let request = NSURLRequest(URL: URL)
         
         return self.session.rac_dataWithRequest(request)
-            .map({ (data, response) -> NSArray? in
-                
-                let anyObj: AnyObject?
-                anyObj = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
-                
-                return anyObj as? NSArray
+            .flatMap(.Latest, transform: { (data, response) -> SignalProducer<Array<String>, NSError> in
+                return SignalProducer { observer, disposable in
+                    do {
+                        let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0))
+                        if let words = json as? [String] {
+                            observer.sendNext(words)
+                            observer.sendCompleted()
+                        } else {
+                            observer.sendFailed(NSError(domain:"json serialization error", code: 0, userInfo: nil))
+                        }
+                    } catch let error as NSError {
+                        observer.sendFailed(error)
+                    }
+                }
             })
-            .map({ words -> [String]? in
-                return words as? [String]
-            })
-            .ignoreNil()
     }
 }

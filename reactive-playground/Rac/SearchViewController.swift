@@ -52,13 +52,13 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     .on(failed: { error -> () in
                         self.tableView.animateColor(UIColor.redColor())
                     })
-                    .flatMapError { error  in SignalProducer<Array<String>, NSError>(value: Array<String>()) }
+                    .flatMapError { error in SignalProducer<Array<String>, NSError>(value: Array<String>()) }
             })
             .observeOn(UIScheduler())
-            .startWithNext { result -> () in
+            .startWithNext({ (result: Array<String>) -> () in
                 self.dataSource.value = result
                 self.tableView.reloadData()
-            }
+            })
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
