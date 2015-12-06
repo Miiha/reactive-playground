@@ -27,12 +27,13 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // setup ui
         searchResultController.searchResultsUpdater = self
         searchResultController.dimsBackgroundDuringPresentation = false
         searchResultController.searchBar.sizeToFit()
-        
         self.tableView.tableHeaderView = searchResultController.searchBar
         
+        // reactive part
         rac_signalForSelector("updateSearchResultsForSearchController:", fromProtocol: UISearchResultsUpdating.self).toSignalProducer()
             .map({ (tuple: AnyObject?) -> UISearchController? in
                 if let tuple = tuple as? RACTuple {
@@ -47,19 +48,19 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             .throttle(1.0, onScheduler: QueueScheduler.mainQueueScheduler)
             .flatMap(.Latest, transform: { query -> SignalProducer<Array<String>, NSError> in
                 return self.apiClient.searchSignal(query)
-                    .retry(1)
                     .observeOn(UIScheduler())
                     .on(failed: { error -> () in
                         self.tableView.animateColor(UIColor.redColor())
                     })
-                    .flatMapError { error in SignalProducer<Array<String>, NSError>(value: Array<String>()) }
+                    .flatMapError { error in SignalProducer<Array<String>, NSError>(value: []) }
             })
-            .observeOn(UIScheduler())
             .startWithNext({ (result: Array<String>) -> () in
                 self.dataSource.value = result
                 self.tableView.reloadData()
             })
     }
+    
+    // MARK: - UITableViewDataSource
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -79,6 +80,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         return cell
     }
+    
+    // MARK: - UISearchResultsUpdating
     
     func updateSearchResultsForSearchController(searchController: UISearchController) {
     }
