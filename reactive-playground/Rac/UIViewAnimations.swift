@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import pop
 
 extension UIView {
     func shake() {

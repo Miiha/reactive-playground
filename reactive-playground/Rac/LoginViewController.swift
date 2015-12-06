@@ -60,7 +60,7 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
         let loginButtonSignal = loginButton.rac_signalForControlEvents(.TouchUpInside).toSignalProducer()
             .flatMapError { error in
                 return SignalProducer<AnyObject?, NoError>.empty
-            }
+        }
 
         // login
         combineLatest(usernameTextSignal, passwordTextSignal)
