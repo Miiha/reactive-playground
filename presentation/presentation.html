@@ -152,6 +152,10 @@ Consumer in charge
 ##T -> () 
 Producer in charge
 ---
+```remark
+a := b + c
+```
+---
 #Every line of Code we write is executed in reaction to an event
 .footnote[Colin Eberhardt [realm.io](https://realm.io/news/swift-summit-colin-eberhardt-reactivecocoa/)]
 ---
@@ -171,11 +175,57 @@ Notifications, KVO, Delegates, Callbacks, Target/Selector,...
   
 .footnote[Ash Furrow [ashfurrow.com](https://ashfurrow.com/blog/reactivecocoa-vs-rxswift/)]
 ---
+#swift closures ()->()
+```swift
+func increment(a: Int) -> Int {
+    return a + 1
+}
+
+let result = increment(1) 
+```
+```swift
+let increment = { (a: Int) -> Int in
+    return a + 1
+}  
+
+let result = increment(1) 
+```
+---
+#Type Inference
+
+```swift
+let states = ["California", "New York", "Texas", "Alaska"] 
+
+let uppercaseStates = states.map({ (state: String) -> String in
+	return state.uppercaseString
+})
+```
+```swift
+let uppercaseStates = states.map({ state in 
+	return state.uppercaseString
+})
+```
+```swift
+let uppercaseStates = states.map({ state in 
+	state.uppercaseString 
+})
+```
+---
+#Shorthand Argument Names
+```swift
+let uppercaseStates = states.map({ $0.upppercaseString })
+```
+---
+#Trailing Closures
+```swift
+let uppercaseStates = states.map { $0.uppercaseString }
+```
+---
 #Signals
 #Transformations
 #Subscribe/Observe(Bind)
 ---
-##Signals/Streams/Observables send stuff
+##Signals send stuff
 A signal is a sequence of ongoing events ordered in time  
 ```remark 
 -----Pew-------Pew------Pew----------------
@@ -216,14 +266,6 @@ public enum Event<Value, Error: ErrorType> {
 }
 ```
 ---
-#Create Producer
-```swift
-let signalProducer = SignalProducer<String, NoError> { observer, disposable in
-	observer.sendNext("Test")
-	observer.sendCompleted()
-}
-```
----
 # Observe/Subscribe
 
 ```swift
@@ -240,13 +282,12 @@ usernameTextSignal
 	.startWithNext { next in print(next) }
 ```
 ---
-#Disposable
+#Create Producer
 ```swift
-let disposable = signalProducer.startWithNext { next in ... }
-```
-```swift
-// manually
-disposable.dispose()
+let signalProducer = SignalProducer<String, NoError> { observer, disposable in
+	observer.sendNext("Test")
+	observer.sendCompleted()
+}
 ```
 ---
 #Operators
@@ -267,7 +308,10 @@ signal //new
 ![Default-aligned image](stream.png)
 .footnote[[rxmarbles.com](http://rxmarbles.com/)]
 ---
-#.map()
+#Transforming
+##.map() 
+![Default-aligned image](img/map.png)
+---
 ```swift
 usernameTextSignal
 	.map({ (text: String) -> Bool in 
@@ -281,55 +325,59 @@ usernameTextSignal
 ```
 
 ```remark
----h--e-----l----l---o---->
+---h--he----hel---hell--hello---->
 .map()
----f--f-----f----t---t---->
+---f--f-----f-----t-----t-------->
 ```
 
 ```swift
 let usernameValidSignal = usernameTextSignal.map { $0.characters.count > 3 } 
 ```
 ---
-#.filter()
-```swift
-let validUsernameSignal = usernameTextSignal.map { $0.characters.count > 3 } 
-```
-```remark
----h--e-----l----l---o---->
-.map()
----f--f-----f----t---t---->
-```
-
+#Transforming
+##.filter()
+![Default-aligned image](img/filter.png)
+---
 ```swift
 validUsernameSignal
 	.filter { $0 }
 ```
 
 ```remark
----h--e-----l----l---o---->
-
-.map()
-
----f--f-----f----t---t---->
+---f--f-----f----t-----t----------->
 
 .filter()
 
------------------t---t---->
+-----------------t-----t----------->
 ```
 ---
-##.collect() 
-// Returns a signal that will yield an array of values when signal completes.
-##.skip(count)
-// Returns a producer that will skip the first count values, then forward everything afterward.
-##.take(count) 
-// Returns a producer that will yield the first count values from the input producer.
+#Transforming
+##.reduce()
+![Default-aligned image](img/reduce.png)
 ---
 #Combining
-##.takeUntil(trigger)
-// Forwards events from self until trigger sends a Next or Completed event, at which point the returned producer will complete.
-##.combineLatest(signal1, signal2)
-// Combines the values of all the given producers
+```remark
+signal + signal
+	 | |
+	_| |_
+	\   / combine 
+	 \ /
+	  V 
+	signal //new
 
+```
+---
+#Combining
+##combineLatest(signalA, signalB)
+![Default-aligned image](img/combine_latest.png)
+---
+#Combining
+##zip(signalA, signalB)
+![Default-aligned image](img/zip.png)
+---
+#Combining
+##.sampleOn(signal)
+![Default-aligned image](img/sample_on.png)
 ---
 #Handling failures
 ##.retry(count)
@@ -367,6 +415,31 @@ loginSignal()
 		self.activityIndicator.stopAnimating()
 	})
 ```
+---
+#Combining
+Scenario: Search in Dictionary, receive result 
+
+Signal <sub>t</sub>  
+S:-----------t-----------t-------t--------------t---->  
+```swift
+.map({ text -> SignalProducer<Result, NSError>
+	return self.fetchResultSignal(text)
+}) 
+```
+Signal <sub>FetchResultSignal <sub>R</sub> </sub>  
+S:----------S<sub>R</sub>---------S<sub>R</sub>-----S<sub>R</sub>----------S<sub>R</sub>---> 
+---
+#Combining - flatmap
+Signal <sub>t</sub>  
+S:-----------t-----------t-------t--------------t---->  
+```swift
+.flatmap(.Latest, { text -> SignalProducer<Result, NSError>
+	return self.fetchResultSignal(text)
+}) 
+```
+FetchResultSignal <sub>R</sub> </sub>  
+S:-----------R------------R-------R--------------R---->  
+
 ---
 #Demo
 ---
