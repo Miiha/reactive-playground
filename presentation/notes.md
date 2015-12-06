@@ -27,6 +27,24 @@ Ein Signal kann alles sein
 #Create Producer
 Unterscheidung zwischen Hot und Cold Signals
 
+#Shake textfields when something is wrong
+```swift
+// shake when text is invalid while tapping login
+validUsernameSignal
+    .sampleOn(loginButtonSignal.map { _ in () })
+    .filter { !$0 }
+    .startWithNext { next -> () in
+        self.usernameField.shake()
+    }
+
+validPasswordSignal
+    .sampleOn(loginButtonSignal.map {_ in () })
+    .filter { !$0 }
+    .startWithNext { next -> () in
+        self.passwordField.shake()
+    }
+```
+
 ```swift
 // search signal with flatmap
 
