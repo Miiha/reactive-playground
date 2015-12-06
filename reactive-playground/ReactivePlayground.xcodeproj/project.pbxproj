@@ -19,6 +19,7 @@
 		86A4D06D1BECAE1C00110425 /* RacTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A4D06C1BECAE1C00110425 /* RacTests.swift */; };
 		86A4D0791BECAF8B00110425 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A4D0771BECAF8B00110425 /* ReactiveCocoa.framework */; };
 		86A4D07A1BECAF8C00110425 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86A4D0781BECAF8B00110425 /* Result.framework */; };
+		86FB1EFC1C144E94007D272D /* FoundationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB1EFB1C144E94007D272D /* FoundationExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		86A4D06E1BECAE1C00110425 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86A4D0771BECAF8B00110425 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		86A4D0781BECAF8B00110425 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
+		86FB1EFB1C144E94007D272D /* FoundationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoundationExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,8 +99,9 @@
 				86A4D0591BECAE1C00110425 /* LoginViewController.swift */,
 				8608A68C1BFF2285004E9EB4 /* SearchViewController.swift */,
 				862F907A1BFE05B400116F9A /* ApiClient.swift */,
-				866294791BF15134008794A0 /* UIKitExtensions.swift */,
 				866D23301BF5EA680048B827 /* UIViewAnimations.swift */,
+				866294791BF15134008794A0 /* UIKitExtensions.swift */,
+				86FB1EFB1C144E94007D272D /* FoundationExtensions.swift */,
 				86A4D05B1BECAE1C00110425 /* Main.storyboard */,
 				86A4D05E1BECAE1C00110425 /* Assets.xcassets */,
 				86A4D0601BECAE1C00110425 /* LaunchScreen.storyboard */,
@@ -243,6 +246,7 @@
 				86A4D05A1BECAE1C00110425 /* LoginViewController.swift in Sources */,
 				86A4D0581BECAE1C00110425 /* AppDelegate.swift in Sources */,
 				8662947A1BF15134008794A0 /* UIKitExtensions.swift in Sources */,
+				86FB1EFC1C144E94007D272D /* FoundationExtensions.swift in Sources */,
 				862F907B1BFE05B400116F9A /* ApiClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

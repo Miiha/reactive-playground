@@ -29,7 +29,7 @@
                                 <animations/>
                                 <state key="normal" title="Login"/>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qqx-Wr-ZZE" userLabel="username">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qqx-Wr-ZZE" userLabel="email">
                                 <rect key="frame" x="20" y="72" width="560" height="30"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -51,9 +51,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="vlO-ti-vSm"/>
                     <connections>
+                        <outlet property="emailField" destination="qqx-Wr-ZZE" id="Uer-L9-gc4"/>
                         <outlet property="loginButton" destination="FJe-0L-8MZ" id="Fdt-XU-2Rh"/>
                         <outlet property="passwordField" destination="N7N-bD-DEu" id="XSe-yh-gmi"/>
-                        <outlet property="usernameField" destination="qqx-Wr-ZZE" id="BTC-pX-6Sa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

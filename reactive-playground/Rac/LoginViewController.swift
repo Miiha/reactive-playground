@@ -11,7 +11,7 @@ import ReactiveCocoa
 
 class LoginViewController: UIViewController, UISearchBarDelegate {
 
-    @IBOutlet weak var usernameField: UITextField!
+    @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
@@ -20,8 +20,8 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // when username text is changed
-        let usernameTextSignal = usernameField.rac_textSignal().toSignalProducer()
+        // when email text is changed
+        let emailTextSignal = emailField.rac_textSignal().toSignalProducer()
             .flatMapError { error in
                 return SignalProducer<AnyObject?, NoError>.empty
             }
@@ -44,17 +44,17 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
                 return SignalProducer<AnyObject?, NoError>.empty
         }
         
-        let validUsernameSignal = usernameTextSignal
+        let validEmailSignal = emailTextSignal
             .map({ text -> Bool in
-                self.isValidUsername(text)
+                return text.isValidEmail
             })
             
         let validPasswordSignal = passwordTextSignal
             .map({ text -> Bool in
-                self.isValidPassword(text)
+                return text.isValidPassword
             })
         
-        usernameField.rac_alpha <~ validUsernameSignal
+        emailField.rac_alpha <~ validEmailSignal
             .map({ valid -> CGFloat in
                 return valid ? 1.0 : 0.5
             })
@@ -64,9 +64,9 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
                 return valid ? 1.0 : 0.5
             })
         
-        let signUpActiveSignal = combineLatest(validUsernameSignal, validPasswordSignal)
-            .map({ (usernameValid, passwordValid) -> Bool in
-                return usernameValid && passwordValid
+        let signUpActiveSignal = combineLatest(validEmailSignal, validPasswordSignal)
+            .map({ (emailValid, passwordValid) -> Bool in
+                return emailValid && passwordValid
             })
         
         // bind the result of signUpActiveSignal to the login button hidden property
@@ -76,13 +76,13 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
             })
 
         // login
-        combineLatest(usernameTextSignal, passwordTextSignal)
+        combineLatest(emailTextSignal, passwordTextSignal)
             .flatMapError { error in
                 return SignalProducer.empty
             }
             .sampleOn(loginButtonSignal.map { _ in () })
-            .flatMap(FlattenStrategy.Latest) { (username, password) -> SignalProducer<Bool, NSError> in
-                return self.apiClient.loginSignal(username, password: password)
+            .flatMap(FlattenStrategy.Latest) { (email, password) -> SignalProducer<Bool, NSError> in
+                return self.apiClient.loginSignal(email, password: password)
             }
             .observeOn(UIScheduler())
             .on(next: { loggedIn -> () in
@@ -91,7 +91,7 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
                         self.view.animateColor(UIColor.greenColor())
                     } else {
                         print("api: invalid login credentials")
-                        self.usernameField.shake()
+                        self.emailField.shake()
                         self.passwordField.shake()
                     }
                 }, failed: { error -> () in
@@ -103,21 +103,6 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
             .startWithNext { loggedIn -> () in
                 print("done: load another controller")
             }
-    }
-    
-    func isValidEmail(email: String) -> Bool {
-        let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-        
-        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluateWithObject(email)
-    }
-    
-    func isValidUsername(username: String) -> Bool {
-        return username.characters.count > 3
-    }
-    
-    func isValidPassword(password: String) -> Bool {
-        return password.characters.count > 3
     }
 }
 

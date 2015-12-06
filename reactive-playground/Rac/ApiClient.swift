@@ -12,8 +12,8 @@ import ReactiveCocoa
 class ApiClient {
     let session =  NSURLSession.sharedSession()
     
-    func loginSignal(username: String, password: String) -> SignalProducer<Bool, NSError> {
-        let URL = NSURL(string: "http://localhost:3000/?username=\(username)&password=\(password)")!        // much wow, much save
+    func loginSignal(email: String, password: String) -> SignalProducer<Bool, NSError> {
+        let URL = NSURL(string: "http://localhost:3000/?username=\(email)&password=\(password)")!        // much wow, much save
         let request = NSURLRequest(URL: URL)
         
         return self.session.rac_dataWithRequest(request)
