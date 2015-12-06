@@ -11,7 +11,7 @@ String.prototype.startsWith = function(needle)
 };
 
 app.get('/', function (req, res) {
-	if (req.query['username'] === 'micha' && req.query['password'] === '1234') {
+	if (req.query['username'] === 'micha.kao@gmail.com' && req.query['password'] === '1234') {
 		res.status(200).json({'message': 'logged in'});
 	} else {
 		res.status(404).json({'message': 'unknown username or password'});
