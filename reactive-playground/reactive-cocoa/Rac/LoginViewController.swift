@@ -10,7 +10,7 @@ import UIKit
 import ReactiveCocoa
 
 class LoginViewController: UIViewController, UISearchBarDelegate {
-
+    
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
@@ -45,41 +45,25 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
         }
         
         let validEmailSignal = emailTextSignal
-            .map({ text -> Bool in
-                return text.isValidEmail
-            })
-            
+            .map { $0.isValidEmail }
+        
         let validPasswordSignal = passwordTextSignal
-            .map({ text -> Bool in
-                return text.isValidPassword
-            })
+            .map { $0.isValidPassword }
         
         emailField.rac_alpha <~ validEmailSignal
-            .map({ valid -> CGFloat in
-                return valid ? 1.0 : 0.5
-            })
-
-        passwordField.rac_alpha <~ validPasswordSignal
-            .map({ valid -> CGFloat in
-                return valid ? 1.0 : 0.5
-            })
+            .map { $0 ? 1.0 : 0.5 }
         
-        let signUpActiveSignal = combineLatest(validEmailSignal, validPasswordSignal)
-            .map({ (emailValid, passwordValid) -> Bool in
-                return emailValid && passwordValid
-            })
+        passwordField.rac_alpha <~ validPasswordSignal
+            .map { $0 ? 1.0 : 0.5 }
         
         // bind the result of signUpActiveSignal to the login button hidden property
-        loginButton.rac_hidden <~ signUpActiveSignal
-            .map({ signUpActive -> Bool in
-                return !signUpActive
-            })
-
+        loginButton.rac_hidden <~ combineLatest(validEmailSignal, validPasswordSignal)
+            .map { $0 && $1 }
+            .map { !$0 }
+        
         // login
         combineLatest(emailTextSignal, passwordTextSignal)
-            .flatMapError { error in
-                return SignalProducer.empty
-            }
+            .flatMapError { error in SignalProducer.empty }
             .sampleOn(loginButtonSignal.map { _ in () })
             .flatMap(.Latest) { (email, password) -> SignalProducer<Bool, NSError> in
                 return self.apiClient.loginSignal(email, password: password)
@@ -93,21 +77,17 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
             }
             .observeOn(UIScheduler())
             .on(next: { loggedIn -> () in
-                    if loggedIn {
-                        print("api: logged in")
-                        self.view.animateColor(UIColor.greenColor())
-                    } else {
-                        print("api: invalid login credentials")
-                        self.emailField.shake()
-                        self.passwordField.shake()
-                    }
-                })
-            .filter({ loggedIn -> Bool in
-                return loggedIn
+                if loggedIn {
+                    self.view.animateColor(UIColor.greenColor())
+                } else {
+                    self.emailField.shake()
+                    self.passwordField.shake()
+                }
             })
+            .filter { $0 }
             .startWithNext { loggedIn -> () in
                 print("done: load another controller")
-            }
+        }
     }
 }
 

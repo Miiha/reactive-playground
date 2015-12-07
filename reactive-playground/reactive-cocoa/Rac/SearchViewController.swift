@@ -11,16 +11,16 @@ import ReactiveCocoa
 
 class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
     @IBOutlet weak var tableView: UITableView!
-
+    
     let cellIdentifier = "WordCell"
-
+    
     let searchResultController: UISearchController!
     let apiClient = ApiClient()
     let dataSource = MutableProperty<Array<String>>([])
-
+    
     required init?(coder aDecoder: NSCoder) {
         self.searchResultController = UISearchController(searchResultsController: nil)
-
+        
         super.init(coder: aDecoder)
     }
     
@@ -65,7 +65,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchResultController.active {
             return dataSource.value.count
