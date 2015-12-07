@@ -81,8 +81,15 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
                 return SignalProducer.empty
             }
             .sampleOn(loginButtonSignal.map { _ in () })
-            .flatMap(FlattenStrategy.Latest) { (email, password) -> SignalProducer<Bool, NSError> in
+            .flatMap(.Latest) { (email, password) -> SignalProducer<Bool, NSError> in
                 return self.apiClient.loginSignal(email, password: password)
+                    .observeOn(UIScheduler())
+                    .on(failed: { error -> () in
+                        self.view.animateColor(UIColor.redColor())
+                    })
+                    .flatMapError { error -> SignalProducer<Bool, NSError> in
+                        return SignalProducer.empty
+                }
             }
             .observeOn(UIScheduler())
             .on(next: { loggedIn -> () in
@@ -94,8 +101,6 @@ class LoginViewController: UIViewController, UISearchBarDelegate {
                         self.emailField.shake()
                         self.passwordField.shake()
                     }
-                }, failed: { error -> () in
-                    self.view.animateColor(UIColor.redColor())
                 })
             .filter({ loggedIn -> Bool in
                 return loggedIn
