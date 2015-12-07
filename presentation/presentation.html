@@ -128,6 +128,8 @@ class: middle, inverse
 ---
 #What is Functional Programming? 
 ---
+![Default-aligned image](img/imperative_vs_functional.png)
+---
 ##Functional programming is programming without assignment statements.
 .footnote[Functional Programming Basics [pragprog.com](https://pragprog.com/magazines/2013-01/functional-programming-basics)]
 ---
@@ -142,8 +144,9 @@ x: = x + 1
 ---
 #What is Reactive?
 ---
-##Datatypes that represent a value "over time".
-.footnote[Laurence Gonsalves [stackoverflow.com](http://stackoverflow.com/a/1028642)]
+```remark
+a := b + c
+```
 ---
 ##() -> T 
 Consumer in charge  
@@ -151,10 +154,6 @@ Consumer in charge
 ---
 ##T -> () 
 Producer in charge
----
-```remark
-a := b + c
-```
 ---
 #Every line of Code we write is executed in reaction to an event
 .footnote[Colin Eberhardt [realm.io](https://realm.io/news/swift-summit-colin-eberhardt-reactivecocoa/)]
@@ -166,12 +165,6 @@ Notifications, KVO, Delegates, Callbacks, Target/Selector,...
 ---
 #ReactiveCocoa provides a common interface for all events
 ---
-#What is ReactiveCococa?
----
-![Default-aligned image](img/stackoverflow.png)
----
-![Default-aligned image](img/fluent.png)
----
 #ReactiveCocoa
 #RxSwift
 #Bolts
@@ -180,6 +173,12 @@ Notifications, KVO, Delegates, Callbacks, Target/Selector,...
 #...  
   
 .footnote[Ash Furrow [ashfurrow.com](https://ashfurrow.com/blog/reactivecocoa-vs-rxswift/)]
+---
+#ReactiveCococa?
+---
+![Default-aligned image](img/stackoverflow.png)
+---
+![Default-aligned image](img/fluent.png)
 ---
 #swift closures ()->()
 ```swift
