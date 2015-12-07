@@ -236,22 +236,6 @@ A signal is a sequence of ongoing events ordered in time
 -----Pew-------Pew------Pew----------------
 ```
 ---
-```remark
----tap-tap-------tap--->
-```
-
-```remark
----h--e-----l----l---o---->
-```
-
-```remark
---1--2--3--4--5--6--| // it terminates normally
-```
-
-```remark
---a--b--a--a--a---d---X // it terminates with error
-```
----
 ```swift
 
 public enum Event<Value, Error: ErrorType> {
@@ -269,6 +253,22 @@ public enum Event<Value, Error: ErrorType> {
 	/// will be received.
 	case Interrupted
 }
+```
+---
+```remark
+---tap-tap-------tap--->
+```
+
+```remark
+---h--e-----l----l---o---->
+```
+
+```remark
+--1--2--3--4--5--6--| // it terminates normally
+```
+
+```remark
+--a--b--a--a--a---d---X // it terminates with error
 ```
 ---
 # Observe/Subscribe
@@ -461,6 +461,8 @@ ReactiveCococa Documentation [github.com](https://github.com/ReactiveCocoa/React
 Rac Marbles [rac-marbles](http://neilpa.me/rac-marbles/)  
 Rx Marbles [rx-marbles](http://rxmarbles.com/)  
 colin eberhardt [raywenderlich.com](http://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1)
+#Code
+Miiha [github.com](https://github.com/Miiha/reactive-playground)
 		</textarea>
 	<script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
